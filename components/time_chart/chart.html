@@ -3,24 +3,47 @@
 <head>
     <meta charset="UTF-8" />
     <title>Time Chart Example</title>
+    <!-- 
+    This file is for standalone testing and development of the web component 
+    when used in the horizon plugin all css/js deps will be provided via xstatic
+    the version  used below should align to the current requiements.txt xstaic verions. 
+    -->
+
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- bootstrap  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" integrity="sha512-pli9aKq758PMdsqjNA+Au4CJ7ZatLCCXinnlSfv023z4xmzl8s+Jbj2qNR7RI8DsxFp5e8OvbYGDACzKntZE9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- d3 and rickshaw -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" integrity="sha512-oJp0DdQuQQrRsKVly+Ww6fAN1GwJN7d1bi8UubpEbzDUh84WrJ2CFPBnT4LqBCcfqTcHR5OGXFFhaPe3g1/bzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.5.1/rickshaw.min.js" integrity="sha512-dHgx66Bbmt0aSM1TKEfDNrlrfF7KCNpwRKovMiZaR4ZWYm2KNe0QqIg+/f0tOYYaKkd+2/oQywbmHFWX3lTMUg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- chartjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-CQBWl4fJHWbryGE+Pc7UAxWMUMNMWzWxF4SQo9CgkJIN1kx6djDQZjh3Y8SZ1d+6I+1zze6Z7kHXO7q3UyZAWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- time chart -->
     <link rel="stylesheet" href="chart.css"/>
     <script src="chart.js"></script>
 </head>
 <body>
     <div>
-        <time-chart class="time-chart" style="svg{background-color:#2A3439}" width="200" height="200" 
-        data='[{"color": "rgb(250,75,150)","data":[{"x":0,"y":23},{"x":1,"y":15},{"x":2,"y":79}]},{"color": "rgb(250, 189, 75)","data":[{"x":0,"y":32},{"x":1,"y":42},{"x":2,"y":16}]}]'></time-chart>
-        <time-chart class="time-chart" style="svg{background-color:#2A3439}" renderer="scatterplot" width="200" height="200"
-        data='[{"color": "rgb(250,75,150)","data":[{"x":0,"y":23},{"x":1,"y":15},{"x":2,"y":79}]}, {"color": "rgb(250, 189, 75)","data":[{"x":0,"y":32},{"x":1,"y":42},{"x":2,"y":16}]}]'></time-chart>
+        <time-chart class="time-chart"
+        type="bar"
+        data='
+        {
+            "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            "datasets": [{
+                "label": "# of Votes",
+                "data": [12, 19, 3, 5, 2, 3],
+                "borderWidth": 1
+            }]
+        }'></time-chart>
+        <time-chart class="time-chart"
+        type="line"
+        data='
+        {
+            "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            "datasets": [{
+                "label": "# of Votes",
+                "data": [12, 19, 3, 5, 2, 3],
+                "borderWidth": 1
+            }]
+        }'></time-chart>
     </div>
 </body>
 </html>
