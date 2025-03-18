@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block custom_head_js %}
+{% include "horizon/_custom_head_js.html" %}
+  <script src="{% static 'vendor/chart.umd.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'components/time_chart/chart.css' %}"/>
+  <script src="{% static 'components/time_chart/chart.js' %}"></script>
+{% endblock %}
+
+{% block title %}{% trans "My plugin" %}{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_domain_page_header.html" with title=_("My Panel") %}
+{% endblock page_header %}
+
+{% block main %}
+  <div>
+    <time-chart class="time-chart"
+    type="bar"
+    data='
+    {
+        "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        "datasets": [{
+            "label": "# of Votes",
+            "data": [12, 19, 3, 5, 2, 3],
+            "borderWidth": 1
+        }]
+    }'></time-chart>
+    <time-chart class="time-chart"
+    type="line"
+    data='
+    {
+        "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        "datasets": [{
+            "label": "# of Votes",
+            "data": [12, 19, 3, 5, 2, 3],
+            "borderWidth": 1
+        }]
+    }'></time-chart>
+  </div>
+{% endblock %}
