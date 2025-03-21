@@ -8,25 +8,16 @@
   <script src="{% static 'components/time_chart/chart.js' %}"></script>
 {% endblock %}
 
-{% block title %}{% trans "My plugin" %}{% endblock %}
-
 {% block page_header %}
-  {% include "horizon/common/_domain_page_header.html" with title=_("My Panel") %}
+  {% include "horizon/common/_domain_page_header.html" with title=_("Hypervisor Metrics") %}
 {% endblock page_header %}
 
 {% block main %}
+
   <div>
     <time-chart class="time-chart"
     type="bar"
-    data='
-    {
-        "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        "datasets": [{
-            "label": "# of Votes",
-            "data": [12, 19, 3, 5, 2, 3],
-            "borderWidth": 1
-        }]
-    }'></time-chart>
+    data='{{ metrics }}'></time-chart>
     <time-chart class="time-chart"
     type="line"
     data='

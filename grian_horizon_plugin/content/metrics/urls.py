@@ -11,7 +11,7 @@
 #    under the License.
 from django.urls import re_path
 
-from grian_horizon_plugin.content.drinks import views
+from grian_horizon_plugin.content.metrics import views
 
 urlpatterns = [
     re_path(r'^$', views.IndexView.as_view(), name='index'),

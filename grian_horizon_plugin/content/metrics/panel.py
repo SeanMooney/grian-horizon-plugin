@@ -17,6 +17,6 @@ import horizon
 # from cafe_ui.api import rest_api  # noqa: F401
 
 
-class Drinks(horizon.Panel):
-    name = "Drinks"
-    slug = "drinks"
+class Metrics(horizon.Panel):
+    name = "Metrics"
+    slug = "metrics"
