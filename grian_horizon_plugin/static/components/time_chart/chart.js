@@ -55,6 +55,10 @@ class TimeChart extends HTMLElement {
 
     external_data_callback(event){
         let element = event.target;
+        let element_class = element.getAttribute("class");
+        if (element_class.startsWith("htmx")){
+            return
+        } 
         let raw_data = element.innerHTML;
         const self = event.data.self;
         self.update(self.chart, "data", raw_data);

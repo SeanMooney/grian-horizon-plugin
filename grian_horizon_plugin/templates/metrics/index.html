@@ -25,6 +25,24 @@
     </script>
     <time-chart class="time-chart" data_ref="#compute_0" type="bar"></time-chart>
     <time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart>
+    <time-chart class="time-chart" data_ref="#compute_0" type="polarArea"
+    options='
+    {
+      "responsive": true,
+      "scales": {
+        "r": {
+          "pointLabels": {
+            "display": true,
+            "centerPointLabels": true,
+            "font": {
+              "size": 18
+            }
+          }
+        }
+      }
+    }
+    '></time-chart>
+    <time-chart class="time-chart" data_ref="#compute_0" type="doughnut"></time-chart>
     {% comment %} <time-chart class="time-chart" type="line" data='{{ metrics }}'
         hx-get='/api/metrics/time-chart/' hx-swap="outerHTML" hx-trigger="load delay:1s" >
     </time-chart> {% endcomment %}

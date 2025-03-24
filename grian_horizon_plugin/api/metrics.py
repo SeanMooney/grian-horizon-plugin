@@ -38,8 +38,14 @@ def placeholder_dataset() -> dict:
         "datasets": [{
             "label": "# of Votes for favorite colour",
             "data": [random.randint(0, 100) for _ in range(len(labels))],
-            "borderWidth": 1
-        }]
+            "borderWidth": 1,
+            "tension": 0.25,
+            "pointStyle": 'circle',
+            "pointRadius": 5,
+            "pointHoverRadius": 15,
+            #  "fill": True
+        }
+        ]
     }
     
     return data
