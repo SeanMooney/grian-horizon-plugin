@@ -1,6 +1,6 @@
 // Create a class for the element
 class TimeChart extends HTMLElement {
-    static observedAttributes = ["data", "type", "options"];
+    static observedAttributes = ["data", "data_ref", "type", "options"];
 
     constructor() {
         // Always call super first in constructor
@@ -16,7 +16,6 @@ class TimeChart extends HTMLElement {
     init_chart() {
         const [data, options, type] = this.getInputs();
         const context = this.canvas.getContext('2d');
-        console.log("render called");
         this.chart = new Chart(context, {
             type: type,
             data: data,
@@ -26,8 +25,14 @@ class TimeChart extends HTMLElement {
     }
 
     getInputs() {
+        let raw_data =  this.getAttribute('data');
+        let data_ref =  this.getAttribute('data_ref');
+        if (data_ref){
+            let external_data_ref = htmx.find(data_ref);
+            raw_data = external_data_ref.innerHTML;
+        }
         return [
-            JSON.parse(this.getAttribute('data')),
+            JSON.parse(raw_data),
             JSON.parse(this.getAttribute("options") ?? "{}"),
             this.getAttribute("type") ?? "line"
          ];
@@ -48,8 +53,26 @@ class TimeChart extends HTMLElement {
         }
     }
 
+    external_data_callback(event){
+        let element = event.target;
+        let raw_data = element.innerHTML;
+        const self = event.data.self;
+        self.update(self.chart, "data", raw_data);
+    }
+
     connectedCallback() {
-         this.init_chart();
+        let raw_data =  this.getAttribute('data');
+        let data_ref =  this.getAttribute('data_ref');
+        if (raw_data && data_ref) {
+            throw new Error("Only one of data or data_ref can be specified");
+        } else if (!raw_data && !data_ref){
+            throw new Error("one of data or data_ref must be specified");
+        }
+        if (data_ref){
+            jQuery(data_ref).bind('DOMSubtreeModified',{self: this}, this.external_data_callback);
+            
+        }
+        this.init_chart();
     }
       
     attributeChangedCallback(name, oldValue, newValue) {

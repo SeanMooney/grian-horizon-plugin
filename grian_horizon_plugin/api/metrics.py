@@ -1,9 +1,12 @@
 import logging
+import itertools
 import json
+import random
 import typing as ty
 
 
 from django.conf import settings
+from django import http
 from django.views import generic
 
 from openstack_dashboard.api.rest import utils
@@ -15,11 +18,11 @@ LOG = logging.getLogger(__name__)
 @urls.register
 class Metrics(generic.View):
     """Api to dispatch metrics requests"""
-    url_regex = r'^metrics/$'
+    url_regex = r'^metrics/placeholder_dataset/$'
     
-    @utils.ajax()
     def get(self, request):
-        return placeholder_dataset()
+        return http.HttpResponse(json.dumps(placeholder_dataset()))
+    
   
 def hi() -> str:
     LOG.debug("hi")
@@ -29,15 +32,25 @@ def placeholder_dataset() -> dict:
     """
     Return a static data set
     """
-    data = '''
-    {
-        "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+    data = {
+        "labels": labels,
         "datasets": [{
-            "label": "# of Votes",
-            "data": [12, 19, 3, 5, 2, 3],
+            "label": "# of Votes for favorite colour",
+            "data": [random.randint(0, 100) for _ in range(len(labels))],
             "borderWidth": 1
         }]
     }
-    '''
-    json_data = json.loads(data)
-    return json_data
+    
+    return data
+
+@urls.register
+class TimeChartView(generic.TemplateView):
+    template_name = 'metrics/partials/time-chart.html'
+    url_regex = r'^metrics/time-chart/$'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['chart_type'] = 'line'
+        context['metrics'] = json.dumps(placeholder_dataset())
+        return context

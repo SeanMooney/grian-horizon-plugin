@@ -4,6 +4,8 @@
 {% block custom_head_js %}
 {% include "horizon/_custom_head_js.html" %}
   <script src="{% static 'vendor/chart.umd.js' %}"></script>
+  <script src="{% static 'vendor/htmx.js' %}"></script>
+  <script src="{% static 'vendor/idiomorph.js' %}"></script>
   <link rel="stylesheet" href="{% static 'components/time_chart/chart.css' %}"/>
   <script src="{% static 'components/time_chart/chart.js' %}"></script>
 {% endblock %}
@@ -15,19 +17,16 @@
 {% block main %}
 
   <div>
-    <time-chart class="time-chart"
-    type="bar"
-    data='{{ metrics }}'></time-chart>
-    <time-chart class="time-chart"
-    type="line"
-    data='
-    {
-        "labels": ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        "datasets": [{
-            "label": "# of Votes",
-            "data": [12, 19, 3, 5, 2, 3],
-            "borderWidth": 1
-        }]
-    }'></time-chart>
+    <script id="compute_0" type="application/json" hx-get='/api/metrics/placeholder_dataset/'
+      htmx-target="#compute_0" hx-swap="innerHTML" hx-trigger="every 5s">
+      {% autoescape off %}
+      {{ metrics }}
+      {% endautoescape %}
+    </script>
+    <time-chart class="time-chart" data_ref="#compute_0" type="bar"></time-chart>
+    <time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart>
+    {% comment %} <time-chart class="time-chart" type="line" data='{{ metrics }}'
+        hx-get='/api/metrics/time-chart/' hx-swap="outerHTML" hx-trigger="load delay:1s" >
+    </time-chart> {% endcomment %}
   </div>
 {% endblock %}
