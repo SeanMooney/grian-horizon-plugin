@@ -32,18 +32,27 @@ def placeholder_dataset() -> dict:
     """
     Return a static data set
     """
-    labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+    labels = ["Used", "free", "Yellow", "Green", "Purple", "Orange"]
     data = {
         "labels": labels,
         "datasets": [{
-            "label": "# of Votes for favorite colour",
+            "label": "#1",
             "data": [random.randint(0, 100) for _ in range(len(labels))],
             "borderWidth": 1,
             "tension": 0.25,
             "pointStyle": 'circle',
             "pointRadius": 5,
             "pointHoverRadius": 15,
-            #  "fill": True
+            "fill": True
+        },{
+            "label": "#2",
+            "data": [random.randint(0, 100) for _ in range(len(labels))],
+            "borderWidth": 1,
+            "tension": 0.25,
+            "pointStyle": 'circle',
+            "pointRadius": 5,
+            "pointHoverRadius": 15,
+            "fill": True
         }
         ]
     }

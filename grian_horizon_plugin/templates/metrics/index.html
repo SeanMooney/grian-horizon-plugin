@@ -16,35 +16,110 @@
 
 {% block main %}
 
-  <div>
-    <script id="compute_0" type="application/json" hx-get='/api/metrics/placeholder_dataset/'
-      htmx-target="#compute_0" hx-swap="innerHTML" hx-trigger="every 5s">
-      {% autoescape off %}
-      {{ metrics }}
-      {% endautoescape %}
-    </script>
-    <time-chart class="time-chart" data_ref="#compute_0" type="bar"></time-chart>
-    <time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart>
-    <time-chart class="time-chart" data_ref="#compute_0" type="polarArea"
-    options='
-    {
-      "responsive": true,
-      "scales": {
-        "r": {
-          "pointLabels": {
-            "display": true,
-            "centerPointLabels": true,
-            "font": {
-              "size": 18
-            }
-          }
-        }
-      }
-    }
-    '></time-chart>
-    <time-chart class="time-chart" data_ref="#compute_0" type="doughnut"></time-chart>
-    {% comment %} <time-chart class="time-chart" type="line" data='{{ metrics }}'
-        hx-get='/api/metrics/time-chart/' hx-swap="outerHTML" hx-trigger="load delay:1s" >
-    </time-chart> {% endcomment %}
+  <div class="quota-dynamic">
+      <div><h2>Hypervisor Summary<h2></div>
+        <div class="col-sm-4 d3_quota_bar">
+          <div><h3>CPU Utilization</h3></div>
+          <script id="cpu_util_summary" type="application/json">
+            {% autoescape off %}
+            {
+              "labels": ["Used", "Free"],
+              "datasets": [
+                {
+                  "data": [58, 42],
+                  "backgroundColor": [
+                    "#ff6384",
+                    "#36a2eb"
+                  ]
+                }
+              ]
+            }            
+            {% endautoescape %}
+          </script>
+          <time-chart class="time-chart" data_ref="#cpu_util_summary" type="doughnut"
+          options='{"circumference": 180, "rotation": -90}'></time-chart>
+        </div>
+        <div class="col-sm-4 d3_quota_bar">
+          <div><h3>RAM Utilization</h3></div>
+          <script id="ram_util_summary" type="application/json">
+            {% autoescape off %}
+            {
+              "labels": ["Used", "Free"],
+              "datasets": [
+                {
+                  "data": [90,10],
+                  "backgroundColor": [
+                    "#ff6384",
+                    "#36a2eb"
+                  ]
+                }
+              ]
+            }            
+            {% endautoescape %}
+          </script>
+          <time-chart class="time-chart" data_ref="#ram_util_summary" type="doughnut"
+          options='{"circumference": 180, "rotation": -90}'></time-chart>
+        </div>
+        <div class="col-sm-4 d3_quota_bar">
+          <div><h3>Disk Utilization</h3></div>
+          <script id="disk_util_summary" type="application/json">
+            {% autoescape off %}
+            {
+              "labels": ["Used", "Free"],
+              "datasets": [
+                {
+                  "data": [20,80],
+                  "backgroundColor": [
+                    "#ff6384",
+                    "#36a2eb"
+                  ]
+                }
+              ]
+            }            
+            {% endautoescape %}
+          </script>
+          <time-chart class="time-chart" data_ref="#disk_util_summary" type="doughnut"
+          options='{"circumference": 180, "rotation": -90}'></time-chart>
+        </div>
   </div>
+
+  <div class="quota-dynamic">
+    <div><h2>Hypervisor Summary<h2></div>
+    <div class="table_wrapper">
+      <table class="table table-striped datatable">
+        <tr>
+          <th>Hostname</th>
+          <th>CPU</th>
+          <th>RAM</th>
+          <th>DISK</th>
+        </tr>
+        <tr>
+          <script id="compute_0" type="application/json" hx-get='/api/metrics/placeholder_dataset/'
+            htmx-target="#compute_0" hx-swap="innerHTML">
+            {% autoescape off %}
+            {{ metrics }}
+            {% endautoescape %}
+          </script>
+          <td><h3><a>compute-0.cloud.domain<a></h3></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+        </tr>
+        <tr>
+          <script id="compute_1" type="application/json" hx-get='/api/metrics/placeholder_dataset/'
+            htmx-target="#compute_1" hx-swap="innerHTML">
+            {% autoescape off %}
+            {{ metrics }}
+            {% endautoescape %}
+          </script>
+          <td><h3><a>compute-1.cloud.domain<a></h3></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+          <td><time-chart class="time-chart" data_ref="#compute_0" type="line"></time-chart></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+      
 {% endblock %}
