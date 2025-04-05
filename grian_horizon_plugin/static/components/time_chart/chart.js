@@ -12,7 +12,7 @@ class TimeChart extends HTMLElement {
         this.shadowRoot.appendChild(this.shadowRootDiv);
         this.chart = null;
     }
-
+    
     init_chart() {
         const [data, options, type] = this.getInputs();
         const context = this.canvas.getContext('2d');
@@ -35,9 +35,9 @@ class TimeChart extends HTMLElement {
             JSON.parse(raw_data),
             JSON.parse(this.getAttribute("options") ?? "{}"),
             this.getAttribute("type") ?? "line"
-         ];
+        ];
     }
-
+    
     update(chart, key, val){
         if (key === "data"){
             // when only changing data we do not need to
@@ -52,16 +52,14 @@ class TimeChart extends HTMLElement {
             this.init_chart()
         }
     }
-
-    external_data_callback(event){
-        let element = event.target;
-        let element_class = element.getAttribute("class");
-        if (element_class.startsWith("htmx")){
-            return
-        } 
-        let raw_data = element.innerHTML;
-        const self = event.data.self;
-        self.update(self.chart, "data", raw_data);
+    
+    external_data_callback(mutationList, observer){
+        for (const mutation of mutationList) {
+            if(mutation.addedNodes.length > 0) {
+                const added = mutation.addedNodes[0].data;
+                this.update(this.chart, "data", added);
+            }
+        }
     }
 
     connectedCallback() {
@@ -72,9 +70,13 @@ class TimeChart extends HTMLElement {
         } else if (!raw_data && !data_ref){
             throw new Error("one of data or data_ref must be specified");
         }
+        
         if (data_ref){
-            jQuery(data_ref).bind('DOMSubtreeModified',{self: this}, this.external_data_callback);
-            
+            const mutation_observer = new MutationObserver(
+                (mutationList, observer) => this.external_data_callback(mutationList, observer));
+            const config = {childList: true, subtree: true };
+            const targetNode = document.querySelector(data_ref);
+            mutation_observer.observe(targetNode,config);
         }
         this.init_chart();
     }
