@@ -5,8 +5,8 @@
 {% include "horizon/_custom_head_js.html" %}
   <script src="{% static 'vendor/chart.umd.js' %}"></script>
   <script src="{% static 'vendor/htmx.js' %}"></script>
-  <script src="{% static 'vendor/idiomorph.js' %}"></script>
   <link rel="stylesheet" href="{% static 'components/time_chart/chart.css' %}"/>
+<link rel="stylesheet" href="{% static 'components/toggle-switch/toggle-switch.css' %}"/>
   <script src="{% static 'components/time_chart/chart.js' %}"></script>
 {% endblock %}
 
@@ -17,10 +17,16 @@
 {% block main %}
 
   <div class="quota-dynamic">
-      <div><h2>Hypervisor Summary<h2></div>
-        <div class="col-sm-4 d3_quota_bar">
-          <div><h3>CPU Utilization</h3></div>
-          <script id="cpu_util_summary" type="application/json">
+    <form>
+
+      <input class="toggle-switch" type="checkbox" checked="true">
+    </form>
+    <div hx-get="/api/metrics/hypervisor_summary" hx-swap="none" hx-trigger="every 5s" >
+	<h2>Hypervisor Summary</h2>
+    </div>
+    <div class="col-sm-4 d3_quota_bar">
+      <div><h3>CPU Utilization</h3></div>
+      <script id="cpu_util_summary" type="application/json">
             {% autoescape off %}
             {
               "labels": ["Used", "Free"],
@@ -28,20 +34,20 @@
                 {
                   "data": [58, 42],
                   "backgroundColor": [
-                    "#ff6384",
-                    "#36a2eb"
+                    "#428bca",
+                    "#da1a31"
                   ]
                 }
               ]
             }            
             {% endautoescape %}
-          </script>
-          <time-chart class="time-chart" data_ref="#cpu_util_summary" type="doughnut"
-          options='{"circumference": 180, "rotation": -90}'></time-chart>
-        </div>
-        <div class="col-sm-4 d3_quota_bar">
-          <div><h3>RAM Utilization</h3></div>
-          <script id="ram_util_summary" type="application/json">
+      </script>
+      <time-chart class="time-chart" data_ref="#cpu_util_summary" type="doughnut"
+        options='{"circumference": 180, "rotation": -90}'></time-chart>
+    </div>
+    <div class="col-sm-4 d3_quota_bar">
+      <div><h3>RAM Utilization</h3></div>
+      <script id="ram_util_summary" type="application/json">
             {% autoescape off %}
             {
               "labels": ["Used", "Free"],
@@ -49,20 +55,20 @@
                 {
                   "data": [90,10],
                   "backgroundColor": [
-                    "#ff6384",
-                    "#36a2eb"
+                    "#428bca",
+                    "#da1a31"
                   ]
                 }
               ]
             }            
             {% endautoescape %}
-          </script>
-          <time-chart class="time-chart" data_ref="#ram_util_summary" type="doughnut"
-          options='{"circumference": 180, "rotation": -90}'></time-chart>
-        </div>
-        <div class="col-sm-4 d3_quota_bar">
-          <div><h3>Disk Utilization</h3></div>
-          <script id="disk_util_summary" type="application/json">
+      </script>
+      <time-chart class="time-chart" data_ref="#ram_util_summary" type="doughnut"
+        options='{"circumference": 180, "rotation": -90}'></time-chart>
+    </div>
+    <div class="col-sm-4 d3_quota_bar">
+      <div><h3>Disk Utilization</h3></div>
+      <script id="disk_util_summary" type="application/json">
             {% autoescape off %}
             {
               "labels": ["Used", "Free"],
@@ -70,17 +76,17 @@
                 {
                   "data": [20,80],
                   "backgroundColor": [
-                    "#ff6384",
-                    "#36a2eb"
+                    "#428bca",
+                    "#da1a31"
                   ]
                 }
               ]
             }            
             {% endautoescape %}
-          </script>
-          <time-chart class="time-chart" data_ref="#disk_util_summary" type="doughnut"
-          options='{"circumference": 180, "rotation": -90}'></time-chart>
-        </div>
+      </script>
+      <time-chart class="time-chart" data_ref="#disk_util_summary" type="doughnut"
+        options='{"circumference": 180, "rotation": -90}'></time-chart>
+    </div>
   </div>
 
   <div class="quota-dynamic">

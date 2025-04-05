@@ -1,0 +1,9 @@
+<script id="cpu_util_summary" type="application/json" hx-swap-oob="innerHTML">
+ {% autoescape off %}{{ cpu_util }}{% endautoescape %}
+</script>
+<script id="ram_util_summary" type="application/json" hx-swap-oob="innerHTML">
+  {% autoescape off %}{{ ram_util }}{% endautoescape %}
+</script>
+<script id="disk_util_summary" type="application/json" hx-swap-oob="innerHTML">
+  {% autoescape off %}{{ disk_util }}{% endautoescape %}
+</script>

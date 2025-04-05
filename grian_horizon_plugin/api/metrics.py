@@ -22,11 +22,48 @@ class Metrics(generic.View):
     
     def get(self, request):
         return http.HttpResponse(json.dumps(placeholder_dataset()))
+
+@urls.register
+class HypervisorMetricsSummary(generic.TemplateView):
+    """Api to dispatch metrics requests"""
+
+    template_name = 'metrics/partials/hypervisor-summary.html'
+    url_regex = r'^metrics/hypervisor_summary$'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        data_names = ("cpu_util", "ram_util", "disk_util")
+        random_data = [random.randint(0, 100) for _ in range(len(data_names))]
+        data_map = {
+            key: json.dumps(add_use_free_bg_colors(
+                data_points_to_chart_js_data({"Used": val, "Free": 100 - val})
+            ))
+            for key, val in zip(data_names, random_data)}
+        context.update(data_map)
+        return context
+
+def data_points_to_chart_js_data(data: dict) -> ty.List[dict]:
+    """Takes a dict of key value data and convert it to chartjs format
+
+            {
+              "labels": ["Used", "Free"],
+              "datasets": [
+                {
+                  "data": [58, 42],
+                }
+              ]
+            }
+    """
+    return {
+        "labels": [*data.keys()],
+        "datasets": [{"data": [*data.values()]}]
+    }
+
+def add_use_free_bg_colors(data: dict) -> dict:
+    for dataset in data.get("datasets"):
+        dataset.update({"backgroundColor": ["#428bca", "#da1a31"]})
+    return data
     
-  
-def hi() -> str:
-    LOG.debug("hi")
-    return "hi"
 
 def placeholder_dataset() -> dict:
     """
