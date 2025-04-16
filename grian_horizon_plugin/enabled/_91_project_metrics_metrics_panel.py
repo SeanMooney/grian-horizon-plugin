@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
 #    not use this file except in compliance with the License. You may obtain
 #    a copy of the License at
@@ -11,11 +12,11 @@
 #    under the License.
 
 # The slug of the panel to be added to HORIZON_CONFIG. Required.
-PANEL = 'metrics'
+PANEL = "metrics"
 # The slug of the panel group the PANEL is associated with.
-PANEL_GROUP = 'compute'
+PANEL_GROUP = "compute"
 # The slug of the dashboard the PANEL associated with. Required.
-PANEL_DASHBOARD = 'admin'
+PANEL_DASHBOARD = "admin"
 
 # Python panel class of the PANEL to be added.
-ADD_PANEL = 'grian_horizon_plugin.content.metrics.panel.Metrics'
+ADD_PANEL = "grian_horizon_plugin.content.metrics.panel.Metrics"

@@ -12,7 +12,7 @@ class TimeChart extends HTMLElement {
         this.shadowRoot.appendChild(this.shadowRootDiv);
         this.chart = null;
     }
-    
+
     init_chart() {
         const [data, options, type] = this.getInputs();
         const context = this.canvas.getContext('2d');
@@ -37,7 +37,7 @@ class TimeChart extends HTMLElement {
             this.getAttribute("type") ?? "line"
         ];
     }
-    
+
     update(chart, key, val){
         if (key === "data"){
             // when only changing data we do not need to
@@ -52,7 +52,7 @@ class TimeChart extends HTMLElement {
             this.init_chart()
         }
     }
-    
+
     external_data_callback(mutationList, observer){
         for (const mutation of mutationList) {
             if(mutation.addedNodes.length > 0) {
@@ -70,7 +70,7 @@ class TimeChart extends HTMLElement {
         } else if (!raw_data && !data_ref){
             throw new Error("one of data or data_ref must be specified");
         }
-        
+
         if (data_ref){
             const mutation_observer = new MutationObserver(
                 (mutationList, observer) => this.external_data_callback(mutationList, observer));
@@ -80,7 +80,7 @@ class TimeChart extends HTMLElement {
         }
         this.init_chart();
     }
-      
+
     attributeChangedCallback(name, oldValue, newValue) {
         if(this.chart){
             this.update(this.chart, name, newValue);

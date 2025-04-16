@@ -34,9 +34,9 @@
           </div>
         </div>
       </div>
-      <div hx-get="/api/metrics/hypervisor_summary" hx-swap="none" hx-trigger="every 5s" >
     </form>
-	<h2>Hypervisor Summary</h2>
+    <div hx-get="/api/metrics/hypervisor_summary" hx-swap="none" hx-trigger="every 5s" >
+    <h2>Cloud Summary</h2>
     </div>
     <div class="col-sm-4 d3_quota_bar">
       <div><h3>CPU Utilization</h3></div>
@@ -53,7 +53,7 @@
                   ]
                 }
               ]
-            }            
+            }
             {% endautoescape %}
       </script>
       <time-chart class="time-chart" data_ref="#cpu_util_summary" type="doughnut"
@@ -74,7 +74,7 @@
                   ]
                 }
               ]
-            }            
+            }
             {% endautoescape %}
       </script>
       <time-chart class="time-chart" data_ref="#ram_util_summary" type="doughnut"
@@ -95,7 +95,7 @@
                   ]
                 }
               ]
-            }            
+            }
             {% endautoescape %}
       </script>
       <time-chart class="time-chart" data_ref="#disk_util_summary" type="doughnut"
@@ -155,5 +155,5 @@
     </div>
   </div>
 </div>
-      
+
 {% endblock %}
