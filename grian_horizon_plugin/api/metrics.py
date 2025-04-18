@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-import logging
 import json
+import logging
 import random
-import typing as ty
 
 
 from django import http
@@ -33,7 +31,10 @@ class HypervisorMetricsSummary(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data_names = ("cpu_util", "ram_util", "disk_util")
-        random_data = [random.randint(0, 100) for _ in range(len(data_names))]
+        random_data = [
+            random.randint(0, 100)  # nosec B311
+            for _ in range(len(data_names))
+        ]
         data_map = {
             key: json.dumps(
                 add_use_free_bg_colors(
@@ -48,7 +49,7 @@ class HypervisorMetricsSummary(generic.TemplateView):
         return context
 
 
-def data_points_to_chart_js_data(data: dict) -> ty.List[dict]:
+def data_points_to_chart_js_data(data: dict) -> list[dict]:
     """Takes a dict of key value data and convert it to chartjs format
 
     {
@@ -70,8 +71,9 @@ def add_use_free_bg_colors(data: dict) -> dict:
 
 
 def placeholder_dataset() -> dict:
-    """
-    Return a static data set
+    """Return a static data set
+
+    :return: dict
     """
     labels = ["Used", "free", "Yellow", "Green", "Purple", "Orange"]
     data = {
@@ -79,7 +81,10 @@ def placeholder_dataset() -> dict:
         "datasets": [
             {
                 "label": "#1",
-                "data": [random.randint(0, 100) for _ in range(len(labels))],
+                "data": [
+                    random.randint(0, 100)  # nosec B311
+                    for _ in range(len(labels))
+                ],
                 "borderWidth": 1,
                 "tension": 0.25,
                 "pointStyle": "circle",
@@ -89,7 +94,10 @@ def placeholder_dataset() -> dict:
             },
             {
                 "label": "#2",
-                "data": [random.randint(0, 100) for _ in range(len(labels))],
+                "data": [
+                    random.randint(0, 100)  # nosec B311
+                    for _ in range(len(labels))
+                ],
                 "borderWidth": 1,
                 "tension": 0.25,
                 "pointStyle": "circle",
